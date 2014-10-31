@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ericsson.research.iot.citypulse</groupId>
-    <artifactId>scdata</artifactId>
+    <artifactId>cpa</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>

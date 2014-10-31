@@ -25,7 +25,8 @@ Installation and Execution
 To install CPA, clone this project and do a maven install.
 
 ```
-git clone xxx.git
+git clone https://github.com/CityPulse/cpa.git
+cd cpa
 mvn install
 ```
 
