@@ -1,21 +1,21 @@
 CPA
 ===================
 
-CPA is a tool for generating data streams.  A data stream is a sequence of measurements from a sensor or other source, over time (for example te$
+CPA is a tool for generating data streams.  A data stream is a sequence of measurements from a sensor or other source, over time (for example temperature data, air pressure on a car's tire, level of fuel on an aircraft, etc.).
 
-It is meant to be used as a tool for testing the performance of systems for gathering and processing large amounts of data from different source$
+It is meant to be used as a tool for testing the performance of systems designed to gather and process large amounts of data from different sources (e.g. IoT middleware). Additionally it can be used to complement existing datastreams, such as the ones in the [CityPulse Dataset Page](http://iot.ee.surrey.ac.uk/citypulse/datasets.html).
 
 Current Features Include:
 
  - Simple to use, command-line user interface.
  - Data Generation using different distributions (Poisson, Exponential, Geometric, Pareto, Gaussian, Uniform/Random and Constant).
-  - Ability to specify starting date of data collection, periodicity (amount of time between subsequent measurements), prefix of URI of generate$
-  - Uses the [MUO ontology](http://idi.fundacionctic.org/muo/) and the [UCUM vocabulary](http://idi.fundacionctic.org/muo/ucum-instances.owl) fo$
-  - Ability to specify stream metadata in the same information model (e.g. description and geographical location)
+  - Ability to specify starting date of data collection, periodicity (amount of time between subsequent measurements), prefix of URI of generated datastream.
+  - Uses the [MUO ontology](http://idi.fundacionctic.org/muo/) and the [UCUM vocabulary](http://idi.fundacionctic.org/muo/ucum-instances.owl) for representing units of measurement in datasets, as well as the [SSN ontology](http://www.w3.org/2005/Incubator/ssn/ssnx/ssn) for representing individual observations.
+  - Ability to specify stream metadata in the same information model (e.g. description and geographical location),
   - Uses [Turtle](http://www.w3.org/TeamSubmission/turtle/) (.ttl) notation to export the generated files.
- - Data Playback support with built-in validation of .ttl using [Apache Jena](https://www.google.se/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad$
-  - Customizable speed of playback (real-time, accelerated, decelerated)
-  - Customizable mode of data transmission (JSON/UDP sockets)
+ - Data Playback support with built-in validation of .ttl using [Apache Jena](https://jena.apache.org).
+  - Customizable speed of playback (real-time, accelerated, decelerated).
+  - Customizable mode of data transmission (JSON/UDP sockets).
 
 -------------
 
@@ -37,13 +37,13 @@ The executable can be found in the "target" folder and can be ran from the comma
 Command Line Client Documentation
 -------------
 
-The supported commands can be accessed by pressing Tab on the command prompt. The tab key can also be used for autocompletion. Currently, the fo$
+The supported commands can be accessed by pressing Tab on the command prompt. The tab key can also be used for autocompletion. Currently, the following commands are implemented:
 
- - generate: Generates a new data stream
- - playback: Plays back an existing dataset. This command has to be provided with an argument, i.e. the name of the dataset file to be used for $
- - help: Provides a help menu
- - clear: Clears the screen
- - exit: Exit the CPA client
+ - generate: Generates a new data stream.
+ - playback: Plays back an existing dataset. This command has to be provided with an argument, i.e. the name of the dataset file for playback.
+ - help: Provides a help menu.
+ - clear: Clears the screen.
+ - exit: Exit the CPA client.
 
 The rest of the document describes the data generation and the data playback functions.
 
