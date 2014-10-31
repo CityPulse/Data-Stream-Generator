@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Cpa : CPA tool, used for datastream generation and playback using the CityPulse information model">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Cpa</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/CityPulse/cpa">View on GitHub</a>
+
+          <h1 id="project_title">Cpa</h1>
+          <h2 id="project_tagline">CPA tool, used for datastream generation and playback using the CityPulse information model</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/CityPulse/cpa/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/CityPulse/cpa/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="cpa" class="anchor" href="#cpa"><span class="octicon octicon-link"></span></a>CPA</h1>
+
+<p>CPA is a tool for generating data streams.  A data stream is a sequence of measurements from a sensor or other source, over time (for example temperature data, air pressure on a car's tire, level of fuel on an aircraft, etc.).</p>
+
+<p>It is meant to be used as a tool for testing the performance of systems designed to gather and process large amounts of data from different sources (e.g. IoT middleware). Additionally it can be used to complement existing datastreams, such as the ones in the <a href="http://iot.ee.surrey.ac.uk/citypulse/datasets.html">CityPulse Dataset Page</a>.</p>
+
+<p>Current Features Include:</p>
+
+<ul>
+<li>Simple to use, command-line user interface.</li>
+<li>Data Generation using different distributions (Poisson, Exponential, Geometric, Pareto, Gaussian, Uniform/Random and Constant).
+
+<ul>
+<li>Ability to specify starting date of data collection, periodicity (amount of time between subsequent measurements), prefix of URI of generated datastream.</li>
+<li>Uses the <a href="http://idi.fundacionctic.org/muo/">MUO ontology</a> and the <a href="http://idi.fundacionctic.org/muo/ucum-instances.owl">UCUM vocabulary</a> for representing units of measurement in datasets, as well as the <a href="http://www.w3.org/2005/Incubator/ssn/ssnx/ssn">SSN ontology</a> for representing individual observations.</li>
+<li>Ability to specify stream metadata in the same information model (e.g. description and geographical location),</li>
+<li>Uses <a href="http://www.w3.org/TeamSubmission/turtle/">Turtle</a> (.ttl) notation to export the generated files.</li>
+</ul>
+</li>
+<li>Data Playback support with built-in validation of .ttl using <a href="https://jena.apache.org">Apache Jena</a>.
+
+<ul>
+<li>Customizable speed of playback (real-time, accelerated, decelerated).</li>
+<li>Customizable mode of data transmission (JSON/UDP sockets).</li>
+</ul>
+</li>
+</ul>
+
+<hr>
+
+<h2>
+<a name="installation-and-execution" class="anchor" href="#installation-and-execution"><span class="octicon octicon-link"></span></a>Installation and Execution</h2>
+
+<p>To install CPA, clone this project and do a maven install.</p>
+
+<pre><code>git clone https://github.com/CityPulse/cpa.git
+cd cpa
+mvn install
+</code></pre>
+
+<p>The executable can be found in the "target" folder and can be ran from the command line:</p>
+
+<pre><code>cd target 
+java -jar cpa-x-jar-with-dependencies.jar
+</code></pre>
+
+<h2>
+<a name="command-line-client-documentation" class="anchor" href="#command-line-client-documentation"><span class="octicon octicon-link"></span></a>Command Line Client Documentation</h2>
+
+<p>The supported commands can be accessed by pressing Tab on the command prompt. The tab key can also be used for autocompletion. Currently, the following commands are implemented:</p>
+
+<ul>
+<li>generate: Generates a new data stream.</li>
+<li>playback: Plays back an existing dataset. This command has to be provided with an argument, i.e. the name of the dataset file for playback.</li>
+<li>help: Provides a help menu.</li>
+<li>clear: Clears the screen.</li>
+<li>exit: Exit the CPA client.</li>
+</ul>
+
+<p>The rest of the document describes the data generation and the data playback functions.</p>
+
+<h3>
+<a name="data-generation" class="anchor" href="#data-generation"><span class="octicon octicon-link"></span></a>Data Generation</h3>
+
+<p>The user can generate a new dataset by typing <code>generate</code> in the CPA command prompt. </p>
+
+<blockquote>
+<p>cpa&gt; <code>generate</code></p>
+</blockquote>
+
+<p>Subsequently the user can parameterize the data stream by typing in a number of properties. First the name of the data stream.</p>
+
+<blockquote>
+<p>Stream Description (e.g. "This stream monitors temperature in Manhattan, New York") &gt;<code>Temperature Stream in Rabalder Meeting Room</code></p>
+</blockquote>
+
+<p>Then, the number of measurements to be generated:</p>
+
+<blockquote>
+<p>Number of measurements [positive integer] &gt;<code>10000</code></p>
+</blockquote>
+
+<p>Subsequently the starting date of the observations:</p>
+
+<blockquote>
+<p>Starting Date: To be provided in yy-MM-ddTHH:mm:ss format, e.g. 2014-12-12T11:11:11 &gt;<code>2014-10-30T18:57:00</code></p>
+</blockquote>
+
+<p>The periodicity between the observations is defined next:</p>
+
+<blockquote>
+<p>Periodicity: Amount of time between two subsequent measurements [positive integer] &gt;<code>1</code>
+Periodicity Unit of Measurement [1=minutes, 2=seconds and 3=milliseconds] &gt;<code>1</code></p>
+</blockquote>
+
+<p>The type of the generated values is set next. It is recommended to use double numbers so that values of some distributions are more accurate:</p>
+
+<blockquote>
+<p>Observation Value Type: [1=integer, 2=double], double recommended &gt;<code>2</code></p>
+</blockquote>
+
+<p>The next option sets the data stream name, which is to be used inside the information model. Please use one word and avoid using special characters.</p>
+
+<blockquote>
+<p>Datastream Name: (please use one word, e.g. "temperatureStream, carTraffic", etc.) &gt;<code>temperatureRabalder</code></p>
+</blockquote>
+
+<p>Then the type of the distribution used to calculate the values:</p>
+
+<blockquote>
+<p>Distribution: [1=Poisson(mean lambda) 2=Exponential(rate lambda) 3=Geometric(mean 1/p) 4=Pareto(a) 5=Uniform(bounded) 6=Constant 7=Gaussian(mean, stdev)] &gt;<code>5</code></p>
+</blockquote>
+
+<p>Depending on the choice of value distribution, different parameters are asked:</p>
+
+<blockquote>
+<p>Upper Bound: Upper bound for value generation in uniform distribution &gt;<code>20</code>
+Lower Bound: Lower bound for value generation in uniform distribution &gt;<code>5</code></p>
+</blockquote>
+
+<p>The output mode should always be file, console can be used for verification/debugging:</p>
+
+<blockquote>
+<p>Output Mode: [1=console 2=file] &gt;<code>2</code></p>
+
+<p>Filename &gt;<code>temperature_stream_rabalder.ttl</code></p>
+</blockquote>
+
+<p>As explained in the introduction, the unit of measurement is based on the <a href="http://idi.fundacionctic.org/muo/ucum-instances.owl">UCUM vocabulary</a>, so the user is asked here to specify a valid term (note that the citypulse project has added a few more definitions as well). The list command provides convenient access to all units of measurements:</p>
+
+<blockquote>
+<p>Unit of measurement [paste URI or type 'list' for possible values]&gt;<code>list</code></p>
+
+<p>List of supported units of measurement: </p>
+
+<p>[0]   <a href="http://purl.oclc.org/NET/muo/ucum/unit/length/meter">http://purl.oclc.org/NET/muo/ucum/unit/length/meter</a></p>
+
+<p>[1]   <a href="http://purl.oclc.org/NET/muo/ucum/unit/time/second">http://purl.oclc.org/NET/muo/ucum/unit/time/second</a></p>
+
+<p>[2]   <a href="http://purl.oclc.org/NET/muo/ucum/unit/mass/gram">http://purl.oclc.org/NET/muo/ucum/unit/mass/gram</a></p>
+
+<p>[...]</p>
+
+<p>[266] <a href="http://purl.oclc.org/NET/muo/citypulse/unit/traffic/vehicle-count">http://purl.oclc.org/NET/muo/citypulse/unit/traffic/vehicle-count</a></p>
+
+<p>[267] <a href="http://purl.oclc.org/NET/muo/citypulse/unit/velocity/km-per-hour">http://purl.oclc.org/NET/muo/citypulse/unit/velocity/km-per-hour</a></p>
+
+<p>[268] <a href="http://purl.oclc.org/NET/muo/citypulse/unit/time/seconds">http://purl.oclc.org/NET/muo/citypulse/unit/time/seconds</a></p>
+
+<p>[269] <a href="http://purl.oclc.org/NET/muo/citypulse/unit/events/eventData">http://purl.oclc.org/NET/muo/citypulse/unit/events/eventData</a></p>
+
+<p>Pick a number of measurement that better represents your data &gt;<code>28</code></p>
+</blockquote>
+
+<p>Next, the prefix of the URL for the entities defined in the generated ontology has to be defined. It is advisable to put the name of the host where the ontology will be deployed.</p>
+
+<blockquote>
+<p>Datastream Prefix (URL where the stream will be placed, e.g. <a href="http://info.ee.surrey.ac.uk/CCSR/CityPulse">http://info.ee.surrey.ac.uk/CCSR/CityPulse</a>) &gt;<code>http://era-gsr.ki.sw.ericsson.se/datasets/generated/rabalder</code></p>
+</blockquote>
+
+<p>Finally, the data stream is generated. The time spend on data stream generation depends on the number of observations set from the user before. The generated file can be found in the root folder from where the CPA CLI application was run.</p>
+
+<h3>
+<a name="data-playback" class="anchor" href="#data-playback"><span class="octicon octicon-link"></span></a>Data Playback</h3>
+
+<p>Data Playback allows for simulation of data transmission from an existing data stream file (such as the one generated in the Data Generation section above).</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Cpa maintained by <a href="https://github.com/CityPulse">CityPulse</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
